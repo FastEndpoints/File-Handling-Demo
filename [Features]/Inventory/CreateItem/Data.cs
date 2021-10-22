@@ -1,24 +1,22 @@
-﻿using GridFSAltDemo.Entities;
+using GridFSAltDemo.Entities;
 
 namespace Inventory.CreateItem
 {
     public static class Data
     {
-        internal static async Task<string> CreateNewItem(Product product, IFormFile[] images)
+        internal static async Task<string> CreateNewItem(Product product, IFormFile[] files)
         {
-            var img1 = new Picture { FileName = images[0].FileName };
-            await img1.SaveAsync();
-            await img1.Data.UploadAsync(images[0].OpenReadStream());
+            var pictures = new List<Picture>(3);
 
-            var img2 = new Picture { FileName = images[1].FileName };
-            await img2.SaveAsync();
-            await img2.Data.UploadAsync(images[1].OpenReadStream());
+            foreach (var file in files)
+            {
+                var pic = new Picture() { FileName = file.FileName };
+                await pic.SaveAsync();
+                await pic.Data.UploadAsync(file.OpenReadStream());
+                pictures.Add(pic);
+            }
 
-            var img3 = new Picture { FileName = images[2].FileName };
-            await img3.SaveAsync();
-            await img3.Data.UploadAsync(images[2].OpenReadStream());
-
-            product.ProductImages.AddRange(new[] { img1, img2, img3 });
+            product.ProductImages = pictures;
             await product.SaveAsync();
 
             return product.ID;
