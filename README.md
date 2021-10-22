@@ -1,5 +1,9 @@
 # FastEndpoints-FileHandling-Demo
-this is a sample project demonstrating image file upload and download with mongodb using FastEndpoints and MongoDB.Entities.
+this is a sample project demonstrating image file upload and download with MongoDB using [FastEndpoints](https://fast-endpoints.com/) and [MongoDB.Entities](https://mongodb-entities.com/).
 
 ## Walkthrough
 https://vimeo.com/637853100
+
+## Prerequisites
+- .Net 6.0
+- MongoDB server (defaults to localhost)
