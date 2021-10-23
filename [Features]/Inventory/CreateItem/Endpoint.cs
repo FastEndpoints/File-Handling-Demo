@@ -13,7 +13,7 @@
         {
             var id = await Data.CreateNewItem(
                 product: r.ToEntity(),
-                images: new[] { r.Image1, r.Image2, r.Image3 });
+                files: new[] { r.Image1, r.Image2, r.Image3 });
 
             await SendAsync(new()
             {

@@ -4,19 +4,26 @@ namespace Inventory.CreateItem
 {
     public static class Data
     {
-        internal static async Task<string> CreateNewItem(Product product, IFormFile[] files)
+        public static async Task<string> CreateNewItem(Product product, IFormFile?[] files)
         {
-            var pictures = new List<Picture>(3);
-
             foreach (var file in files)
             {
-                var pic = new Picture() { FileName = file.FileName };
-                await pic.SaveAsync();
-                await pic.Data.UploadAsync(file.OpenReadStream());
-                pictures.Add(pic);
+                var pic = new Picture();
+
+                if (file is not null)
+                {
+                    pic.FileName = file.FileName;
+                    await pic.SaveAsync();
+                    await pic.Data.UploadAsync(file.OpenReadStream());
+                }
+                else
+                {
+                    pic.ID = "product-placeholder-image";
+                }
+
+                product.ProductImages.Add(pic);
             }
 
-            product.ProductImages = pictures;
             await product.SaveAsync();
 
             return product.ID;

@@ -28,13 +28,25 @@ namespace Inventory.CreateItem
                 .NotEmpty().WithMessage("please enter a product name!");
 
             RuleFor(x => x.Price)
-                .GreaterThan(0).WithMessage("please enter a product price!");
+                .NotEmpty().WithMessage("product price is required!")
+                .GreaterThan(0).WithMessage("product price is invalid!");
 
-            RuleFor(x => x.Image1)
+            RuleFor(x => x.Image1).Cascade(CascadeMode.Stop)
                 .NotEmpty().WithMessage("product image is required!")
-                .Must(x => IsAllowedSize(x.Length)).WithMessage("image 1 is too small!")
+                .Must(x => IsAllowedSize(x.Length)).WithMessage("too small!")
                 .Must(x => IsAllowedType(x.ContentType)).WithMessage("file type is invalid!");
 
+            When(x => x.Image2 != null, () =>
+            {
+                RuleFor(x => x.Image2).Must(x => IsAllowedSize(x.Length)).WithMessage("too small!");
+                RuleFor(x => x.Image2).Must(x => IsAllowedType(x.ContentType)).WithMessage("file type is invalid!");
+            });
+
+            When(x => x.Image3 != null, () =>
+            {
+                RuleFor(x => x.Image3).Must(x => IsAllowedSize(x.Length)).WithMessage("too small!");
+                RuleFor(x => x.Image3).Must(x => IsAllowedType(x.ContentType)).WithMessage("file type is invalid!");
+            });
         }
 
         public bool IsAllowedType(string contentType)
