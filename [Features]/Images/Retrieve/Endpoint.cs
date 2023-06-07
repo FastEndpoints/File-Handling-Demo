@@ -4,7 +4,7 @@
     {
         public override void Configure()
         {
-            Get("/images/retrieve/{ImageID}.jpg");
+            Get("/images/retrieve/{@img}.jpg", r => new { r.ImageID });
             AllowAnonymous();
         }
 
@@ -12,6 +12,7 @@
         {
             try
             {
+                HttpContext.MarkResponseStart();
                 HttpContext.Response.StatusCode = 200;
                 HttpContext.Response.ContentType = "image/jpeg";
                 await Data.ReadImageFromStorage(r.ImageID, HttpContext.Response.Body, ct);

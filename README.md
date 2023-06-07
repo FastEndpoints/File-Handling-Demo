@@ -5,5 +5,5 @@ this is a sample project demonstrating image file upload and download with Mongo
 https://vimeo.com/637853100
 
 ## Prerequisites
-- .Net 6.0
+- .Net 7.0
 - MongoDB server (defaults to localhost)

@@ -1,17 +1,16 @@
 global using FastEndpoints;
-global using FastEndpoints.Validation;
 global using MongoDB.Entities;
 using FastEndpoints.Swagger;
 
-var builder = WebApplication.CreateBuilder();
-builder.Services.AddFastEndpoints();
-builder.Services.AddSwagger();
+var bld = WebApplication.CreateBuilder();
+bld.Services
+   .AddFastEndpoints()
+   .SwaggerDocument();
 
-var app = builder.Build();
-app.UseAuthorization();
-app.UseFastEndpoints();
-app.UseSwagger();
-app.UseSwaggerUI();
+var app = bld.Build();
+app.UseAuthorization()
+   .UseFastEndpoints()
+   .UseSwaggerGen();
 
 await DB.InitAsync("GridFSAltDemo");
 

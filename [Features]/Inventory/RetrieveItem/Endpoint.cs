@@ -4,14 +4,18 @@
     {
         public override void Configure()
         {
-            Get("/inventory/retrieve-item/{ProductID}");
+            Get("/inventory/retrieve-item/{@pid}", r => new { r.ProductID });
             AllowAnonymous();
         }
 
         public override async Task HandleAsync(Request r, CancellationToken c)
         {
-            await SendAsync(
-                await Data.RetrieveItem(r.ProductID, BaseURL));
+            var item = await Data.RetrieveItem(r.ProductID, BaseURL);
+
+            if (item is null)
+                await SendNotFoundAsync();
+            else
+                await SendAsync(item);
         }
     }
 }

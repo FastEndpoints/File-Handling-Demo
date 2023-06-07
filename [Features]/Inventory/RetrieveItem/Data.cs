@@ -4,13 +4,13 @@ namespace Inventory.RetrieveItem
 {
     public static class Data
     {
-        internal static Task<Response> RetrieveItem(string productID, string baseUrl)
+        internal static Task<Response?> RetrieveItem(string productID, string baseUrl)
         {
             return DB.Find<Product, Response>()
                 .MatchID(productID)
                 .Project(p => new()
                 {
-                    ProductID = p.ID,
+                    ProductID = p.ID!,
                     ProductName = p.Name,
                     Description = p.Description,
                     Price = p.Price,

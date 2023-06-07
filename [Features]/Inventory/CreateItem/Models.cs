@@ -1,4 +1,5 @@
-﻿using GridFSAltDemo.Entities;
+﻿using FluentValidation;
+using GridFSAltDemo.Entities;
 
 namespace Inventory.CreateItem
 {
@@ -53,7 +54,7 @@ namespace Inventory.CreateItem
             => (new[] { "image/jpeg", "image/png" }).Contains(contentType.ToLower());
 
         public bool IsAllowedSize(long fileLength)
-            => fileLength >= 100 && fileLength <= 10485760;
+            => fileLength is >= 100 and <= 10485760;
     }
 
     public class Response

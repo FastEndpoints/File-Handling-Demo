@@ -26,7 +26,7 @@ namespace Inventory.CreateItem
 
             await product.SaveAsync();
 
-            return product.ID;
+            return product.ID!;
         }
     }
 }
